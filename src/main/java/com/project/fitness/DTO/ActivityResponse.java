@@ -1,4 +1,4 @@
-package com.project.fitness.models;
+package com.project.fitness.DTO;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -9,10 +9,12 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.fitness.models.ActivityType;
+import com.project.fitness.models.Recommendations;
+import com.project.fitness.models.User;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
@@ -24,23 +26,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Data // Getter Setter combination
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-@Builder
-public class Activity {
-     
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+@NoArgsConstructor
+public class ActivityResponse {
+
+	
 	private Long id;
 	
-	@JdbcTypeCode(SqlTypes.JSON)
-	@Column(columnDefinition = "json")
+	
 	private Map<String,Object> additionalMetrics;
 	private Integer caloriesBurned;
 	private LocalDateTime created_At;
@@ -48,17 +45,11 @@ public class Activity {
 	@Enumerated(EnumType.STRING)
 	private ActivityType type;
 	private LocalDateTime updated_At;
-	
+	private Long userId;
 	private LocalDateTime startTime;
-	
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id" , nullable = false , foreignKey = @ForeignKey(name = "fk_activity_user"))
-	@JsonIgnore
-	private User user;
-	
 
-	@OneToMany(mappedBy = "activity" ,cascade = CascadeType.ALL  , orphanRemoval = true)
-	@JsonIgnore
-	List<Recommendations> recommendations = new ArrayList<>();
+	
+	
+	
+	
 }

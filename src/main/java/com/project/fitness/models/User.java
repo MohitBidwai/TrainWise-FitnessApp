@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -14,6 +17,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +25,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class User {
 
 	
@@ -31,9 +36,11 @@ public class User {
 	private String emailId;
 	private String firstName;
 	private String lastName;
-	private String password;
-	private Role role;
+	private String password; 
+	@CreationTimestamp
 	private LocalDateTime created_At;
+	
+	@UpdateTimestamp
 	private LocalDateTime updated_At;
     
 	@OneToMany(mappedBy = "user" , cascade = CascadeType.ALL , orphanRemoval = true)
